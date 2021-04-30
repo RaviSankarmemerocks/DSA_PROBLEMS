@@ -1,81 +1,49 @@
-package com.company;
-
-import java.util.ArrayList;
-
-public class RatinMaze {
-    public static void main(String args[]){
-         int [][] maze=  {{1,1,1,1,1},
-                          {1,1,1,1,1},
-                          {1,1,1,1,1},
-                          {1,1,1,1,1},
-                          {1,1,1,1,1}
-         };
-         //DDDDRRRURD
-        int n=5;
-//DDDRUUURDDDRUUURDDD
-        int [][] track_mat=new int[maze.length][maze[0].length];
-        ArrayList<String> dir=new ArrayList<>();
-        Dfs(track_mat,maze,0,0,dir,new ArrayList<>(),false,false,false,false);
-        System.out.println(dir);
-        return;
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        // Your code here
+        ArrayList<String> paths=new ArrayList<>();
+        boolean[][] visited=new boolean[n][n];
+        dfs(m,n,visited,0,0,"",paths,false,false,false,false);
+        if(paths.size()==0){
+            paths.add("-1");
+        }
+        return paths;
     }
-    public static void Dfs(int[][] track_mat,int[][] maze,int row,int col,ArrayList<String>dir,ArrayList<Character> d,boolean isUp,boolean isDown,boolean isLeft,boolean isRight){
-        if(row<0||row>=maze.length||col<0||col>=maze[0].length||maze[row][col]==0){
+    public static void dfs(int[][]m,int n,boolean[][]visited,int r,int c,String s,ArrayList<String> paths,boolean isup,boolean isdown,boolean isleft,boolean isright){
+        if(r<0||r>=n||c<0||c>=n||visited[r][c]||m[r][c]==0){
+            return ;
+            
+        }
+        if(r==n-1&&c==n-1){
+            if(isup){
+            s+='U';
+        }else if(isdown){
+            s+='D';
+        }else if(isleft){
+            s+='L';
+        }else if(isright){
+            s+='R';
+        }
+            paths.add(s);
             return;
         }
-        if(row==maze.length-1 && col==maze[0].length-1){
-            if(isUp){
-                d.add('U');
-            }else if(isDown){
-                d.add('D');
-            }else if(isLeft){
-                d.add('L');
-            }
-            else if(isRight){
-                d.add('R');
-            }
-            if(d.size()>0) {
-                String s="";
-                for(char c:d){
-                    s+=c;
-                }
-                dir.add(s);
-                s="";
-
-            }
-            System.out.println(d);
-           // d.remove(d.size()-1);
-            return;
-
-
+        
+        visited[r][c]=true;
+        if(isup){
+            s+='U';
+        }else if(isdown){
+            s+='D';
+        }else if(isleft){
+            s+='L';
+        }else if(isright){
+            s+='R';
         }
-
-        if(isUp){
-            d.add('U');
-        }else if(isDown){
-            d.add('D');
-        }else if(isLeft){
-            d.add('L');
-        }
-        else if(isRight){
-            d.add('R');
-        }
-        maze[row][col]=0;
-        Dfs(track_mat,maze, row-1, col, dir, d, true, false,false,false);
-
-        Dfs(track_mat,maze, row+1, col, dir, d, false, true,false,false);
-
-
-        Dfs(track_mat,maze, row, col-1, dir, d, false, false,true,false);
-
-
-        Dfs(track_mat,maze, row, col+1, dir, d, false, false,false,true);
-        maze[row][col]=1;
-        //if(d.size()>0) {
-            d.remove(d.size() - 1);
-        //}
-
-
+        
+        dfs(m,n,visited,r+1,c,s,paths,false,true,false,false);
+        dfs(m,n,visited,r,c+1,s,paths,false,false,false,true);
+        dfs(m,n,visited,r-1,c,s,paths,true,false,false,false);
+        dfs(m,n,visited,r,c-1,s,paths,false,false,true,false);
+        
+        visited[r][c]=false;
     }
 }
-
