@@ -11,12 +11,12 @@
 class Solution 
 {
     //Function to return the diameter of a Binary Tree.
-    int dia=0;
+    int diameter=0;
     int diameter(Node root) {
         // Your code here
         dfs(root);
         
-        return dia;
+        return diameter;
     }
     public int dfs(Node root){
         if(root==null){
@@ -24,7 +24,7 @@ class Solution
         }
         int left=dfs(root.left);
         int right=dfs(root.right);
-        dia=Math.max(dia,left+right+1);
+        diameter=Math.max(diameter,left+right+1);
         if(left>right){
             return left+1;
         }
