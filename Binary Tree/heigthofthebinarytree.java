@@ -18,12 +18,12 @@ class Solution {
     int height(Node node) {
         // code here 
         if(node==null){return 0;}
-        return getheight(node);
+        return getHeight(node);
     }
     public int getheight(Node node){
         if(node==null){return 0;}
-        int left=getheight(node.left);
-        int right=getheight(node.right);
+        int left=getHeight(node.left);
+        int right=getHeight(node.right);
         if(left>right){
             return left+1;
         }
